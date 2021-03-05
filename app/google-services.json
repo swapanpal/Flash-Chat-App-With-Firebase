@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "369561884162",
+    "project_id": "flashchatandroid-7fd23",
+    "storage_bucket": "flashchatandroid-7fd23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369561884162:android:eda9b3092adc09f7cb391b",
+        "android_client_info": {
+          "package_name": "android.swapanpal.com.flashchatappwithfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369561884162-5g30oaetq9sfb2rg5mdfg57itaenlh0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6wh_cXBXk6cBW-zvf_SlqiYGXdTawlJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369561884162-5g30oaetq9sfb2rg5mdfg57itaenlh0o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
