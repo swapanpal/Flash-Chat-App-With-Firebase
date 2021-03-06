@@ -10,7 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -22,6 +27,36 @@ public class ChatListAdapter extends BaseAdapter {
     private String mDisplayName;
     private ArrayList<DataSnapshot> mSnapShortList;
 
+    // For firebase connection.
+    private ChildEventListener mListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            mSnapShortList.add(snapshot);
+            notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
+
     /**
      * Constructor for the Adapter clas
      * @param activity
@@ -32,6 +67,8 @@ public class ChatListAdapter extends BaseAdapter {
         mActivity = activity;
         mDisplayName = name;
         mDatabaseReference = ref.child("messages");
+        mDatabaseReference.addChildEventListener(mListener);
+
         mSnapShortList = new ArrayList<>();
     }
 
@@ -45,12 +82,13 @@ public class ChatListAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 0;
+        return mSnapShortList.size();
     }
 
     @Override
-    public InstantMessage getItem(int i) {
-        return null;
+    public InstantMessage getItem(int position) {
+        DataSnapshot snapshot = mSnapShortList.get(position);
+        return snapshot.getValue(InstantMessage.class);
     }
 
     @Override
@@ -79,7 +117,11 @@ public class ChatListAdapter extends BaseAdapter {
 
         String msg = message.getMessage();
         holder.body.setText(msg);
-        
+
         return convertView;
+    }
+    // This method clean up the memory of Firebase database
+    public void cleanup(){
+        mDatabaseReference.removeEventListener(mListener);
     }
 }
