@@ -2,7 +2,9 @@ package android.swapanpal.com.flashchatappwithfirebase;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.provider.ContactsContract;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +114,9 @@ public class ChatListAdapter extends BaseAdapter {
         final InstantMessage message = getItem(position);
         final ViewHolder holder = (ViewHolder) convertView.getTag();
 
+        boolean isMe = message.getAuthor().equals(mDisplayName);
+        setChatRowAppearance(isMe, holder);
+
         String author = message.getAuthor();
         holder.authorName.setText(author);
 
@@ -120,6 +125,21 @@ public class ChatListAdapter extends BaseAdapter {
 
         return convertView;
     }
+    private void setChatRowAppearance(boolean isItMe, ViewHolder holder){
+        if (isItMe){
+            holder.params.gravity = Gravity.END;
+            holder.authorName.setTextColor(Color.GREEN);
+            holder.body.setBackgroundResource(R.drawable.bubble2);
+        }else {
+
+            holder.params.gravity = Gravity.START;
+            holder.authorName.setTextColor(Color.BLUE);
+            holder.body.setBackgroundResource(R.drawable.bubble1);
+        }
+        holder.authorName.setLayoutParams(holder.params);
+        holder.body.setLayoutParams(holder.params);
+    }
+
     // This method clean up the memory of Firebase database
     public void cleanup(){
         mDatabaseReference.removeEventListener(mListener);
