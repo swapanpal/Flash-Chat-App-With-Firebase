@@ -1,7 +1,9 @@
 package android.swapanpal.com.flashchatappwithfirebase;
 
 import android.app.Activity;
+import android.content.Context;
 import android.provider.ContactsContract;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,7 +49,7 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public InstantMessage getItem(int i) {
         return null;
     }
 
@@ -57,7 +59,27 @@ public class ChatListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null){
+            LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.chat_msg_row, parent, false);
+
+            final ViewHolder holder = new ViewHolder();
+            holder.authorName = convertView.findViewById(R.id.author);
+            holder.body = convertView.findViewById(R.id.message);
+            holder.params = (LinearLayout.LayoutParams) holder.authorName.getLayoutParams();
+            convertView.setTag(holder);
+        }
+
+        final InstantMessage message = getItem(position);
+        final ViewHolder holder = (ViewHolder) convertView.getTag();
+
+        String author = message.getAuthor();
+        holder.authorName.setText(author);
+
+        String msg = message.getMessage();
+        holder.body.setText(msg);
+        
+        return convertView;
     }
 }
